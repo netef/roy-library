@@ -1,13 +1,14 @@
 import React from "react";
 import "./booksGrid.css";
+import BookGridItem from "../bookGridItem/bookGridItem";
 export default function BooksGrid() {
   return (
     <div className="books-grid">
-      <p>wow</p>
-      <p>wow</p>
-      <p>wow</p>
-      <p>wow</p>
-      <p>wow</p>
+      <BookGridItem />
+      <BookGridItem />
+      <BookGridItem />
+      <BookGridItem />
+      <BookGridItem />
     </div>
   );
 }
