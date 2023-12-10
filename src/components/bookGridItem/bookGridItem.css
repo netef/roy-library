@@ -1,0 +1,12 @@
+.book-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.book-img {
+  height: 400px;
+  width: 100%;
+  object-fit: fill;
+}
