@@ -1,17 +1,19 @@
-import BooksGrid from "./components/booksGrid/booksGrid";
+import { Routes, Route } from "react-router-dom";
+
 import "./page.css";
+import Home from "./pages/home/home";
+import UserPage from "./pages/userPage/userPage";
+import { home, login, register, user } from "./components/utils/constants";
+import Register from "./pages/register/register";
+import Login from "./pages/login/login";
 function App() {
     return (
-        <div className="page-layout">
-            <h2>
-                Welcome to Roy's Library, the digital haven where your literary
-                dreams come to life! As you step into our online sanctuary of
-                stories, you're not just visiting a website; you're embarking on
-                a journey through the endless realms of imagination and
-                knowledge.
-            </h2>
-            <BooksGrid />
-        </div>
+        <Routes>
+            <Route path={home} element={<Home />} />
+            <Route path={user} element={<UserPage />} />
+            <Route path={register} element={<Register />} />
+            <Route path={login} element={<Login />} />
+        </Routes>
     );
 }
 
