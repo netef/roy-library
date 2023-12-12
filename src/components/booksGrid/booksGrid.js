@@ -82,13 +82,14 @@ export default function BooksGrid() {
         <div className="books-grid">
             {books.map((book) => {
                 return (
-                    <div key={book.id} onClick={(e) => bookClickHandler(book)}>
+                    <div key={book.id} onClick={() => bookClickHandler(book)}>
                         <BookGridItem book={book} />
                     </div>
                 );
             })}
             <ReactModal
                 isOpen={open}
+                ariaHideApp={false}
                 onRequestClose={() => setOpen(false)}
                 style={{
                     content: {
