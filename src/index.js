@@ -4,13 +4,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Navbar from "./components/navbar/navbar";
 import "./reset.css";
+import { UserProvider } from "./contexts/UserContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <Navbar />
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <UserProvider>
+            <Navbar />
+            <App />
+        </UserProvider>
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

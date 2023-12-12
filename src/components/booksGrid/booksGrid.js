@@ -82,7 +82,7 @@ export default function BooksGrid() {
         <div className="books-grid">
             {books.map((book) => {
                 return (
-                    <div onClick={(e) => bookClickHandler(book)}>
+                    <div key={book.id} onClick={(e) => bookClickHandler(book)}>
                         <BookGridItem book={book} />
                     </div>
                 );
