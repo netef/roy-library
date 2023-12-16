@@ -1,7 +1,21 @@
 .page-layout {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 70%;
-  margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 70%;
+    margin: auto;
+}
+
+.counter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+
+.contactForm {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    align-items: start;
 }
