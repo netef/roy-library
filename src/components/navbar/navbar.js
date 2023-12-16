@@ -3,7 +3,6 @@ import { HouseDoor, PersonCircle } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { home, user } from "../utils/constants";
 import "./navbar.css";
-import { PersonCircle } from "react-bootstrap-icons";
 export default function Navbar() {
   return (
     <div className="container">

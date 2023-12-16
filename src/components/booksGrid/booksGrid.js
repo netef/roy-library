@@ -3,7 +3,6 @@ import BookGridItem from "../bookGridItem/bookGridItem";
 import ReactModal from "react-modal";
 import { FileMinus, FilePlus } from "react-bootstrap-icons/dist";
 import "./booksGrid.css";
-import BookGridItem from "../bookGridItem/bookGridItem";
 export default function BooksGrid() {
   const [open, setOpen] = useState(false);
   const [bookToAdd, setBookToAdd] = useState(null);
