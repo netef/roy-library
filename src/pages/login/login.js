@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import "./login.css";
 import { Link } from "react-router-dom";
-import { login, register } from "../../components/utils/constants";
+import { register } from "../../components/utils/constants";
 
 export default function Login() {
     const [loading, setLoading] = useState(false);

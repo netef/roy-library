@@ -1,6 +1,5 @@
-.contactForm {
+.layout {
     display: flex;
-    gap: 5px;
     flex-direction: column;
     align-items: start;
 }
