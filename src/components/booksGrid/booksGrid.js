@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BookGridItem from "../bookGridItem/bookGridItem";
 import "./booksGrid.css";
 import { useUserContext } from "../../contexts/UserContext";
-import { SERVER_URL, getUser } from "../utils/constants";
+import { SERVER_URL } from "../utils/constants";
 import axios from "axios";
 import { useBookContext } from "../../contexts/BookContext";
 import BookModal from "../bookModal/bookModal";

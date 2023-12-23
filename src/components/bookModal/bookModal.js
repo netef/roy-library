@@ -8,7 +8,7 @@ export default function BookModal({ open, setOpen, bookToAdd }) {
     const borrowBook = async () => {
         try {
             setLoading(true);
-            const res = await borrowBookById(bookToAdd.id);
+            await borrowBookById(bookToAdd.id);
         } catch (error) {
             console.error(error);
         }
