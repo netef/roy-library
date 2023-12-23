@@ -9,9 +9,27 @@ export const SERVER_URL = "http://127.0.0.1:8000/";
 export const getUser = async () => {
     try {
         const data = await axios.get(
-            `${SERVER_URL}/users/${localStorage.getItem("id")}`
+            `${SERVER_URL}/users/${localStorage.getItem("id")}`,
+            {
+                headers: { Authorization: localStorage.getItem("token") },
+            }
         );
         return data.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const updateUserById = async (data) => {
+    try {
+        const res = await axios.patch(
+            `${SERVER_URL}/users/${localStorage.getItem("id")}`,
+            data,
+            {
+                headers: { Authorization: localStorage.getItem("token") },
+            }
+        );
+        return res;
     } catch (error) {
         console.error(error);
     }
