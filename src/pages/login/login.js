@@ -1,26 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { register } from "../../components/utils/constants";
+import { Link, useNavigate } from "react-router-dom";
+import { home, register } from "../../components/utils/constants";
+import { useUserContext } from "../../contexts/UserContext";
+import axios from "axios";
+import { SERVER_URL } from "../../utils/constants";
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
+    const { setUser } = useUserContext();
+    const navigate = useNavigate();
     const registerUser = async (e) => {
         e.preventDefault();
         setLoading(true);
         const data = {
-            email: e.target.email.value,
+            username: e.target.username.value,
             password: e.target.password.value,
         };
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);
+        try {
+            const user = await axios.post(`${SERVER_URL}/auth/login/`, data);
+            localStorage.setItem("token", `token: ${user.data.token}`);
+
+            setUser(user.data);
+            navigate(home);
+        } catch (error) {
+            console.error(error);
+        }
+        setLoading(false);
     };
     return (
         <div className="page-layout center">
             <h1>Please login to use the library.</h1>
             <form id="form" className="contactForm" onSubmit={registerUser}>
-                <label>Email: </label>
-                <input name="email" type="text" required />
+                <label>Username: </label>
+                <input name="username" type="text" required />
                 <label>Password: </label>
                 <input name="password" type="password" required />
 

@@ -1,37 +1,46 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../components/utils/constants";
+import axios from "axios";
+import { SERVER_URL } from "../../utils/constants";
 
 export default function Register() {
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const registerUser = async (e) => {
         e.preventDefault();
         setLoading(true);
         const data = {
-            email: e.target.email.value,
+            username: e.target.username.value,
             password: e.target.password.value,
             first_name: e.target.first_name.value,
             last_name: e.target.last_name.value,
-            date_of_birth: e.target.date_of_birth.value,
+            email: e.target.email.value,
         };
-        setTimeout(() => {
-            setLoading(false);
-        }, 3000);
+        try {
+            await axios.post(`${SERVER_URL}/auth/register/`, data);
+            navigate(login);
+        } catch (error) {
+            console.error(error);
+        }
+
+        setLoading(false);
     };
     return (
         <div className="page-layout center">
             <h1>Please register to use the library.</h1>
             <form id="form" className="contactForm" onSubmit={registerUser}>
-                <label>Email: </label>
-                <input name="email" type="text" required />
+                <label>Username: </label>
+                <input name="username" type="text" required />
                 <label>Password: </label>
                 <input name="password" type="password" required />
                 <label>First name: </label>
                 <input name="first_name" type="text" required />
                 <label>Last name: </label>
                 <input name="last_name" type="text" required />
-                <label>Date of birth: </label>
-                <input name="date_of_birth" type="date" required />
+                <label>Email: </label>
+                <input name="email" type="text" required />
+
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
