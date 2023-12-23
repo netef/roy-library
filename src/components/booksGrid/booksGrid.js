@@ -3,15 +3,15 @@ import BookGridItem from "../bookGridItem/bookGridItem";
 import ReactModal from "react-modal";
 import "./booksGrid.css";
 import { useUserContext } from "../../contexts/UserContext";
-import { SERVER_URL, borrowBookById } from "../utils/constants";
+import { SERVER_URL, borrowBookById, getUser } from "../utils/constants";
 import axios from "axios";
 import { useBookContext } from "../../contexts/BookContext";
+import BookModal from "../bookModal/bookModal";
 export default function BooksGrid() {
     const [open, setOpen] = useState(false);
     const [bookToAdd, setBookToAdd] = useState(null);
     const { books, setBooks } = useBookContext();
     const { user, setUser } = useUserContext();
-    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const getBooks = async () => {
             try {
@@ -23,18 +23,21 @@ export default function BooksGrid() {
                 console.error(error);
             }
         };
+        const receiveUser = async () => {
+            try {
+                const data = await getUser();
+                setUser(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
         getBooks();
+        !user && receiveUser();
     }, [setBooks]);
     function bookClickHandler(book) {
         setOpen(true);
         setBookToAdd(book);
     }
-
-    const borrowBook = async () => {
-        setLoading(true);
-        const res = await borrowBookById(bookToAdd.id);
-        setLoading(false);
-    };
 
     return (
         <div className="books-grid">
@@ -52,34 +55,13 @@ export default function BooksGrid() {
             ) : (
                 <h1>There are no books in the library</h1>
             )}
-            <ReactModal
-                isOpen={open}
-                ariaHideApp={false}
-                onRequestClose={() => setOpen(false)}
-                style={{
-                    content: {
-                        height: "450px",
-                        width: "300px",
-                        margin: "auto",
-                    },
-                }}
-            >
-                <div className="book-modal-container">
-                    <h1>{bookToAdd?.title ?? ""}</h1>
-                    <img
-                        width={"50%"}
-                        src={bookToAdd?.img_url ?? ""}
-                        alt="book-cover"
-                    />
-                    <p>Do you want to borrow this book?</p>
-                    <button
-                        className="book-modal-container-btn"
-                        onClick={borrowBook}
-                    >
-                        {loading ? "Loading..." : "Borrow"}
-                    </button>
-                </div>
-            </ReactModal>
+            {user && (
+                <BookModal
+                    open={open}
+                    setOpen={setOpen}
+                    bookToAdd={bookToAdd}
+                />
+            )}
         </div>
     );
 }

@@ -1,4 +1,15 @@
 import axios from "axios";
+import AWS from "aws-sdk";
+const S3_BUCKET = "roylibrarybucket";
+const REGION = "eu-north-1";
+
+AWS.config.update({
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+    region: REGION,
+});
+
+const s3 = new AWS.S3();
 
 export const home = "/";
 export const user = "/user";
@@ -78,4 +89,25 @@ export const returnBookById = async (book_id) => {
     } catch (error) {
         console.error(error);
     }
+};
+
+export const createBook = async (data) => {
+    try {
+        const book = await axios.post(`${SERVER_URL}/books/`, data, {
+            headers: { Authorization: localStorage.getItem("token") },
+        });
+        return book;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const uploadImage = async (file) => {
+    const params = {
+        Bucket: S3_BUCKET,
+        Key: file.name,
+        Body: file,
+        ContentType: file.type,
+    };
+    return s3.upload(params).promise();
 };
