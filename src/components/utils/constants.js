@@ -101,6 +101,16 @@ export const createBook = async (data) => {
         console.error(error);
     }
 };
+export const editBook = async (book_id, data) => {
+    try {
+        const book = await axios.patch(`${SERVER_URL}/books/${book_id}`, data, {
+            headers: { Authorization: localStorage.getItem("token") },
+        });
+        return book;
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 export const uploadImage = async (file) => {
     const params = {

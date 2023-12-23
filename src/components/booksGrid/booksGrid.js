@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import BookGridItem from "../bookGridItem/bookGridItem";
-import ReactModal from "react-modal";
 import "./booksGrid.css";
 import { useUserContext } from "../../contexts/UserContext";
-import { SERVER_URL, borrowBookById, getUser } from "../utils/constants";
+import { SERVER_URL, getUser } from "../utils/constants";
 import axios from "axios";
 import { useBookContext } from "../../contexts/BookContext";
 import BookModal from "../bookModal/bookModal";
+import EditBookModal from "../bookModal/editBookModal";
 export default function BooksGrid() {
     const [open, setOpen] = useState(false);
     const [bookToAdd, setBookToAdd] = useState(null);
     const { books, setBooks } = useBookContext();
-    const { user, setUser } = useUserContext();
+    const { user } = useUserContext();
     useEffect(() => {
         const getBooks = async () => {
             try {
@@ -23,16 +23,7 @@ export default function BooksGrid() {
                 console.error(error);
             }
         };
-        const receiveUser = async () => {
-            try {
-                const data = await getUser();
-                setUser(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
         getBooks();
-        !user && receiveUser();
     }, [setBooks]);
     function bookClickHandler(book) {
         setOpen(true);
@@ -55,7 +46,13 @@ export default function BooksGrid() {
             ) : (
                 <h1>There are no books in the library</h1>
             )}
-            {user && (
+            {user && user.is_admin ? (
+                <EditBookModal
+                    open={open}
+                    setOpen={setOpen}
+                    bookToAdd={bookToAdd}
+                />
+            ) : (
                 <BookModal
                     open={open}
                     setOpen={setOpen}

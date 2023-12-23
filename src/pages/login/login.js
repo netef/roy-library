@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { home, register } from "../../components/utils/constants";
+import { getUser, home, register } from "../../components/utils/constants";
 import { useUserContext } from "../../contexts/UserContext";
 import axios from "axios";
 import { SERVER_URL } from "../../components/utils/constants";
@@ -17,10 +17,11 @@ export default function Login() {
             password: e.target.password.value,
         };
         try {
-            const user = await axios.post(`${SERVER_URL}/auth/login/`, data);
-            localStorage.setItem("token", `Token ${user.data.token}`);
-            localStorage.setItem("id", user.data.id);
-            setUser(user.data);
+            const auth = await axios.post(`${SERVER_URL}/auth/login/`, data);
+            localStorage.setItem("token", `Token ${auth.data.token}`);
+            localStorage.setItem("id", auth.data.id);
+            const user = await getUser();
+            setUser(user);
             navigate(home);
         } catch (error) {
             console.error(error);
