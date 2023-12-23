@@ -1,94 +1,90 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./userOrdersTab.css";
-export default function UserOrdersTab() {
-  const [open, setOpen] = useState(false);
-  const [bookToReturn, setBookToReturn] = useState(null);
+import {
+    getBorrowedBooksById,
+    returnBookById,
+} from "../../components/utils/constants";
+import ReactModal from "react-modal";
 
-  function bookClickHandler(book) {
-    setOpen(true);
-    setBookToReturn(book);
-  }
-  const books = [
-    {
-      id: "123456",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "1234567",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "1234576",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "1234756",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "1237456",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "1273456",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "12345677",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "123456777",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-    {
-      id: "1234568",
-      title: "Spring Book",
-      description: "An amazing book about spring",
-      quantity: 4,
-      img: "https://content.wepik.com/statics/90897927/preview-page0.jpg",
-    },
-  ];
-  return (
-    <div className="layout">
-      {books.map((book) => {
-        return (
-          <div className="book">
-            <h2>{book.title}</h2>
-            <img src={book.img} alt="book cover" height={200} width={150} />
-            <button
-              className="returnBtn"
-              onClick={() => bookClickHandler(book)}
+export default function UserOrdersTab() {
+    const [open, setOpen] = useState(false);
+    const [bookToReturn, setBookToReturn] = useState(null);
+    const [borrowedBooks, setBorrowedBooks] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    function bookClickHandler(book) {
+        setOpen(true);
+        setBookToReturn(book);
+    }
+
+    const returnBook = async () => {
+        setLoading(true);
+        const res = await returnBookById(bookToReturn.id);
+        console.log(res);
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        const getBorrowedBooks = async () => {
+            const res = await getBorrowedBooksById();
+            setBorrowedBooks(res.data);
+        };
+        getBorrowedBooks();
+    }, [setBorrowedBooks]);
+
+    return (
+        <div className="layout">
+            {borrowedBooks.length > 0 ? (
+                borrowedBooks.map((book) => {
+                    return (
+                        <div key={book.id} className="book">
+                            <h2>{book.title}</h2>
+                            <img
+                                src={book.img_url}
+                                alt="book cover"
+                                height={200}
+                                width={150}
+                            />
+                            <button
+                                className="returnBtn"
+                                onClick={() => bookClickHandler(book)}
+                            >
+                                Return
+                            </button>
+                        </div>
+                    );
+                })
+            ) : (
+                <h1>You did not borrow any books.</h1>
+            )}
+            <ReactModal
+                isOpen={open}
+                ariaHideApp={false}
+                onRequestClose={() => setOpen(false)}
+                style={{
+                    content: {
+                        height: "450px",
+                        width: "300px",
+                        margin: "auto",
+                    },
+                }}
             >
-              Return
-            </button>
-          </div>
-        );
-      })}
-    </div>
-  );
+                <div className="book-modal-container">
+                    <h1>{bookToReturn?.title ?? ""}</h1>
+                    <img
+                        width={"50%"}
+                        src={bookToReturn?.img_url ?? ""}
+                        alt="book-cover"
+                    />
+                    <p>Do you want to return this book?</p>
+                    <button
+                        className="book-modal-container-btn"
+                        onClick={returnBook}
+                    >
+                        {loading ? "Loading..." : "Return"}
+                    </button>
+                </div>
+            </ReactModal>
+        </div>
+    );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useUserContext } from "../../contexts/UserContext";
-import "./userDetailsTab.css";
 import { getUser, updateUserById } from "../../components/utils/constants";
+import "./userDetailsTab.css";
 
 export default function UserDetailsTab() {
     const { user, setUser } = useUserContext();

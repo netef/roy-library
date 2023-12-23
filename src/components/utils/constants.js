@@ -35,7 +35,7 @@ export const updateUserById = async (data) => {
     }
 };
 
-export const getBorrowedBooksById = async (id) => {
+export const getBorrowedBooksById = async () => {
     try {
         const data = await axios.get(
             `${SERVER_URL}/books/borrow/${localStorage.getItem("id")}`,
@@ -43,6 +43,7 @@ export const getBorrowedBooksById = async (id) => {
                 headers: { Authorization: localStorage.getItem("token") },
             }
         );
+        return data;
     } catch (error) {
         console.error(error);
     }
@@ -54,6 +55,22 @@ export const borrowBookById = async (book_id) => {
             `${SERVER_URL}/books/borrow/`,
             { user: localStorage.getItem("id"), book: book_id },
             {
+                headers: { Authorization: localStorage.getItem("token") },
+            }
+        );
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const returnBookById = async (book_id) => {
+    try {
+        const data = await axios.delete(
+            `${SERVER_URL}/books/borrow/`,
+
+            {
+                params: { user: localStorage.getItem("id"), book: book_id },
                 headers: { Authorization: localStorage.getItem("token") },
             }
         );
