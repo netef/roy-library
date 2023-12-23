@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { login } from "../components/utils/constants";
+import { login } from "./constants";
 
 const PrivateRoute = ({ children }) => {
     if (localStorage.getItem("token") === null) return <Navigate to={login} />;

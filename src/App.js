@@ -6,7 +6,7 @@ import UserPage from "./pages/userPage/userPage";
 import { home, login, register, user } from "./components/utils/constants";
 import Register from "./pages/register/register";
 import Login from "./pages/login/login";
-import PrivateRoute from "./utils/privateRoute";
+import PrivateRoute from "./components/utils/privateRoute";
 function App() {
     return (
         <Routes>

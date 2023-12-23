@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../components/utils/constants";
 import axios from "axios";
-import { SERVER_URL } from "../../utils/constants";
+import { SERVER_URL } from "../../components/utils/constants";
 
 export default function Register() {
     const [loading, setLoading] = useState(false);

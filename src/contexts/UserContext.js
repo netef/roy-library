@@ -7,15 +7,9 @@ export function useUserContext() {
 }
 
 export function UserProvider({ children }) {
-    // const dummy = {
-    //     first_name: "david",
-    //     last_name: "ben gurion",
-    //     email: "davidthegreat@gmail.com",
-    //     is_admin: true,
-    // };
-    const [getUser, setUser] = useState(null);
+    const [user, setUser] = useState(null);
     return (
-        <UserContext.Provider value={{ getUser, setUser }}>
+        <UserContext.Provider value={{ user, setUser }}>
             {children}
         </UserContext.Provider>
     );

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { home, register } from "../../components/utils/constants";
 import { useUserContext } from "../../contexts/UserContext";
 import axios from "axios";
-import { SERVER_URL } from "../../utils/constants";
+import { SERVER_URL } from "../../components/utils/constants";
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
@@ -18,8 +18,8 @@ export default function Login() {
         };
         try {
             const user = await axios.post(`${SERVER_URL}/auth/login/`, data);
-            localStorage.setItem("token", `token: ${user.data.token}`);
-
+            localStorage.setItem("token", `Token ${user.data.token}`);
+            localStorage.setItem("id", user.data.id);
             setUser(user.data);
             navigate(home);
         } catch (error) {
