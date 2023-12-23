@@ -16,3 +16,31 @@ export const getUser = async () => {
         console.error(error);
     }
 };
+
+export const getBorrowedBooksById = async (id) => {
+    try {
+        const data = await axios.get(
+            `${SERVER_URL}/books/borrow/${localStorage.getItem("id")}`,
+            {
+                headers: { Authorization: localStorage.getItem("token") },
+            }
+        );
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const borrowBookById = async (book_id) => {
+    try {
+        const data = await axios.post(
+            `${SERVER_URL}/books/borrow/`,
+            { user: localStorage.getItem("id"), book: book_id },
+            {
+                headers: { Authorization: localStorage.getItem("token") },
+            }
+        );
+        return data;
+    } catch (error) {
+        console.error(error);
+    }
+};

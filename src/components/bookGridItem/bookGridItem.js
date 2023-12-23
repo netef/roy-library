@@ -6,7 +6,7 @@ export default function BookGridItem({ book }) {
             <img className="book-img" src={book.img_url} alt="book cover" />
             <h2>{book.title}</h2>
             <h3>{book.description}</h3>
-            <p>Amount available: {book.quantity}</p>
+            <p>Amount available: {book.available_copies}</p>
         </div>
     );
 }
