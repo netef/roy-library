@@ -15,7 +15,7 @@ export const home = "/";
 export const user = "/user";
 export const register = "/register";
 export const login = "/login";
-export const SERVER_URL = "http://127.0.0.1:8000/";
+export const SERVER_URL = "http://127.0.0.1:8000/api/";
 
 export const getUser = async () => {
     try {
