@@ -14,8 +14,8 @@ const s3 = new AWS.S3();
 export const home = "/";
 export const user = "/user";
 export const register = "/register";
-export const login = "/login";
-export const SERVER_URL = "http://127.0.0.1:8000/api/";
+export const login = "/login" ;
+export const SERVER_URL = "http://51.20.68.194/api";
 
 export const getUser = async () => {
     try {
