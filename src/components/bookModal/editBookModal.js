@@ -21,7 +21,7 @@ export default function EditBookModal({ open, setOpen, bookToAdd }) {
                         : e.target.available_copies.value,
                 img_url:
                     e.target.img_url.files[0] &&
-                    (await uploadImage(e.target.img_url.files[0])),
+                    (await uploadImage(e.target.img_url.files[0])).Location,
             };
             await editBook(bookToAdd.id, data);
             setBooks((prev) => {
