@@ -14,7 +14,7 @@ const s3 = new AWS.S3();
 export const home = "/";
 export const user = "/user";
 export const register = "/register";
-export const login = "/login" ;
+export const login = "/login";
 export const SERVER_URL = "http://51.20.119.5/api";
 
 export const getUser = async () => {
@@ -120,4 +120,22 @@ export const uploadImage = async (file) => {
         ContentType: file.type,
     };
     return s3.upload(params).promise();
+};
+
+export const capitalLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
+export const sortByABC = (a, b) => {
+    if (
+        capitalLetter(a.title.toLowerCase()) <
+        capitalLetter(b.title.toLowerCase())
+    )
+        return -1;
+    if (
+        capitalLetter(a.title.toLowerCase()) >
+        capitalLetter(b.title.toLowerCase())
+    )
+        return 1;
+    return 0;
 };
