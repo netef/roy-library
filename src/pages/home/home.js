@@ -22,13 +22,7 @@ export default function Home() {
         <div>
             <Navbar />
             <div className="page-layout">
-                <h2>
-                    Welcome to Roy's Library, the digital haven where your
-                    literary dreams come to life! As you step into our online
-                    sanctuary of stories, you're not just visiting a website;
-                    you're embarking on a journey through the endless realms of
-                    imagination and knowledge.
-                </h2>
+                <img src="book_shelf_image.jpg" alt="hero_image" />
                 {user && user.is_admin && (
                     <button
                         style={{
