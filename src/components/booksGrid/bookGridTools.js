@@ -11,7 +11,7 @@ export default function BookGridTools({ search, setSearch }) {
             ...prev.sort((a, b) => {
                 if (value == 1) {
                     return sortByABC(a, b);
-                } else if (value == 2) {
+                } else {
                     return new Date(b.date_added) - new Date(a.date_added);
                 }
             }),
