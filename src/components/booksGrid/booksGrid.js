@@ -61,6 +61,7 @@ export default function BooksGrid() {
                                             position: "absolute",
                                             top: -10,
                                             backgroundColor: "red",
+                                            borderColor: "transparent",
                                             borderRadius: "100px",
                                             height: 48,
                                             width: 48,
@@ -70,7 +71,7 @@ export default function BooksGrid() {
                                             e.stopPropagation();
                                         }}
                                     >
-                                        <Trash />
+                                        <Trash size={24} color="white" />
                                     </button>
                                     <BookGridItem book={book} />
                                 </div>

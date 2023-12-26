@@ -3,14 +3,17 @@ import Navbar from "../../components/navbar/navbar";
 import { Tab, Tabs } from "@mui/material";
 import UserDetailsTab from "./userDetailsTab";
 import UserOrdersTab from "./userOrdersTab";
+import { useUserContext } from "../../contexts/UserContext";
+import UsersListTab from "./usersListTab";
 export default function UserPage() {
     const [page, setPage] = useState(0);
+    const { user } = useUserContext();
     const selectPage = () => {
         switch (page) {
             case 0:
                 return <UserDetailsTab />;
             case 1:
-                return <UserOrdersTab />;
+                return user?.is_admin ? <UsersListTab /> : <UserOrdersTab />;
             default:
                 return <UserDetailsTab />;
         }
@@ -25,7 +28,11 @@ export default function UserPage() {
                     aria-label="basic tabs example"
                 >
                     <Tab label="Details" />
-                    <Tab label="Orders" />
+                    {user?.is_admin ? (
+                        <Tab label="Users" />
+                    ) : (
+                        <Tab label="Orders" />
+                    )}
                 </Tabs>
                 <div>{selectPage()}</div>
             </div>

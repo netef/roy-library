@@ -10,14 +10,13 @@ export default function RemoveBookModal({ open, setOpen, bookToRemove }) {
         try {
             e.preventDefault();
             setLoading(true);
-            const res = await deleteBook(bookToRemove.id);
+            await deleteBook(bookToRemove.id);
             setBooks((prev) => {
                 const tmp = [...prev];
                 var index = tmp.indexOf(bookToRemove);
                 tmp.splice(index, 1);
                 return tmp;
             });
-
             setOpen(false);
         } catch (error) {
             console.error(error);

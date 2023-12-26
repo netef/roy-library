@@ -31,11 +31,38 @@ export const getUser = async () => {
     }
 };
 
+export const getAllUsers = async () => {
+    try {
+        const data = await axios.get(`${SERVER_URL}/users/`, {
+            headers: { Authorization: localStorage.getItem("token") },
+        });
+        console.log(data);
+        return data.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export const updateUserById = async (data) => {
     try {
         const res = await axios.patch(
             `${SERVER_URL}/users/${localStorage.getItem("id")}`,
             data,
+            {
+                headers: { Authorization: localStorage.getItem("token") },
+            }
+        );
+        return res;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const deleteUserById = async (user_id) => {
+    try {
+        const res = await axios.delete(
+            `${SERVER_URL}/users/${user_id}`,
+
             {
                 headers: { Authorization: localStorage.getItem("token") },
             }
