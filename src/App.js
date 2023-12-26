@@ -1,12 +1,21 @@
 import { Routes, Route } from "react-router-dom";
-
-import "./page.css";
 import Home from "./pages/home/home";
 import UserPage from "./pages/userPage/userPage";
-import { home, login, register, user } from "./components/utils/constants";
+import {
+    about,
+    contact,
+    home,
+    login,
+    register,
+    user,
+} from "./components/utils/constants";
 import Register from "./pages/register/register";
 import Login from "./pages/login/login";
 import PrivateRoute from "./components/utils/privateRoute";
+import About from "./pages/about/about";
+import Contact from "./pages/contact/contact";
+import "./page.css";
+
 function App() {
     return (
         <Routes>
@@ -23,6 +32,22 @@ function App() {
                 element={
                     <PrivateRoute>
                         <UserPage />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path={about}
+                element={
+                    <PrivateRoute>
+                        <About />
+                    </PrivateRoute>
+                }
+            />
+            <Route
+                path={contact}
+                element={
+                    <PrivateRoute>
+                        <Contact />
                     </PrivateRoute>
                 }
             />

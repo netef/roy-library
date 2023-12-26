@@ -15,6 +15,9 @@ export const home = "/";
 export const user = "/user";
 export const register = "/register";
 export const login = "/login";
+export const about = "/about";
+export const contact = "/contact";
+
 export const SERVER_URL = "http://51.20.119.5/api";
 
 export const getUser = async () => {
@@ -60,13 +63,9 @@ export const updateUserById = async (data) => {
 
 export const deleteUserById = async (user_id) => {
     try {
-        const res = await axios.delete(
-            `${SERVER_URL}/users/${user_id}`,
-
-            {
-                headers: { Authorization: localStorage.getItem("token") },
-            }
-        );
+        const res = await axios.delete(`${SERVER_URL}/users/${user_id}`, {
+            headers: { Authorization: localStorage.getItem("token") },
+        });
         return res;
     } catch (error) {
         console.error(error);
