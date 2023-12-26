@@ -8,8 +8,11 @@ import { useBookContext } from "../../contexts/BookContext";
 import BookModal from "../bookModal/bookModal";
 import EditBookModal from "../bookModal/editBookModal";
 import BookGridTools from "./bookGridTools";
+import { Trash } from "react-bootstrap-icons";
+import RemoveBookModal from "../bookModal/removeBookModal";
 export default function BooksGrid() {
     const [open, setOpen] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
     const [bookToAdd, setBookToAdd] = useState(null);
     const [search, setSearch] = useState("");
     const { books, setBooks } = useBookContext();
@@ -27,8 +30,10 @@ export default function BooksGrid() {
         };
         getBooks();
     }, [setBooks]);
-    function bookClickHandler(book) {
-        setOpen(true);
+
+    function bookClickHandler(book, del = false) {
+        if (del) setOpenDelete(true);
+        else setOpen(true);
         setBookToAdd(book);
     }
 
@@ -45,7 +50,28 @@ export default function BooksGrid() {
                                 <div
                                     key={book.id}
                                     onClick={() => bookClickHandler(book)}
+                                    style={{
+                                        display: "flex",
+                                        position: "relative",
+                                        justifyContent: "center",
+                                    }}
                                 >
+                                    <button
+                                        style={{
+                                            position: "absolute",
+                                            top: -10,
+                                            backgroundColor: "red",
+                                            borderRadius: "100px",
+                                            height: 48,
+                                            width: 48,
+                                        }}
+                                        onClick={(e) => {
+                                            bookClickHandler(book, true);
+                                            e.stopPropagation();
+                                        }}
+                                    >
+                                        <Trash />
+                                    </button>
                                     <BookGridItem book={book} />
                                 </div>
                             );
@@ -66,6 +92,11 @@ export default function BooksGrid() {
                         bookToAdd={bookToAdd}
                     />
                 )}
+                <RemoveBookModal
+                    open={openDelete}
+                    setOpen={setOpenDelete}
+                    bookToRemove={bookToAdd}
+                />
             </div>
         </div>
     );

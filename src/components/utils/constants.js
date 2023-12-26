@@ -112,6 +112,17 @@ export const editBook = async (book_id, data) => {
     }
 };
 
+export const deleteBook = async (book_id) => {
+    try {
+        const res = await axios.delete(`${SERVER_URL}/books/${book_id}`, {
+            headers: { Authorization: localStorage.getItem("token") },
+        });
+        return res.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 export const uploadImage = async (file) => {
     const params = {
         Bucket: S3_BUCKET,
