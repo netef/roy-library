@@ -13,7 +13,10 @@ export default function EditBookModal({ open, setOpen, bookToAdd }) {
         try {
             e.preventDefault();
             setLoading(true);
-            const uploadImageRes = await uploadImage(e.target.img_url.files[0]);
+            let uploadImageRes = undefined;
+            console.log(e.target.img_url.files[0]);
+            if (e.target.img_url.files[0] !== undefined)
+                uploadImageRes = await uploadImage(e.target.img_url.files[0]);
             if (uploadImageRes?.Location === undefined)
                 throw new Error("unable to upload image.");
             const data = {
@@ -40,6 +43,7 @@ export default function EditBookModal({ open, setOpen, bookToAdd }) {
                     return b;
                 });
             });
+            setMessage("Book edited successfully.");
         } catch (error) {
             console.error(error);
             setMessage(error.message);
