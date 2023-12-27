@@ -61,23 +61,25 @@ export default function BooksGrid() {
                                         justifyContent: "center",
                                     }}
                                 >
-                                    <button
-                                        style={{
-                                            position: "absolute",
-                                            top: -10,
-                                            backgroundColor: "red",
-                                            borderColor: "transparent",
-                                            borderRadius: "100px",
-                                            height: 48,
-                                            width: 48,
-                                        }}
-                                        onClick={(e) => {
-                                            bookClickHandler(book, true);
-                                            e.stopPropagation();
-                                        }}
-                                    >
-                                        <Trash size={24} color="white" />
-                                    </button>
+                                    {user.is_admin && (
+                                        <button
+                                            style={{
+                                                position: "absolute",
+                                                top: -10,
+                                                backgroundColor: "red",
+                                                borderColor: "transparent",
+                                                borderRadius: "100px",
+                                                height: 48,
+                                                width: 48,
+                                            }}
+                                            onClick={(e) => {
+                                                bookClickHandler(book, true);
+                                                e.stopPropagation();
+                                            }}
+                                        >
+                                            <Trash size={24} color="white" />
+                                        </button>
+                                    )}
                                     <BookGridItem book={book} />
                                 </div>
                             );
