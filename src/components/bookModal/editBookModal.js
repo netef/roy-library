@@ -17,8 +17,10 @@ export default function EditBookModal({ open, setOpen, bookToAdd }) {
             console.log(e.target.img_url.files[0]);
             if (e.target.img_url.files[0] !== undefined)
                 uploadImageRes = await uploadImage(e.target.img_url.files[0]);
-            if (uploadImageRes?.Location === undefined)
-                throw new Error("unable to upload image.");
+            {
+                if (uploadImageRes?.Location === undefined)
+                    throw new Error("unable to upload image.");
+            }
             const data = {
                 title:
                     e.target.title.value.trim() === ""
