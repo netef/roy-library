@@ -1,7 +1,6 @@
 import React from "react";
 import { Trash } from "react-bootstrap-icons";
 export default function UserRow({ user, setOpen, setUserToDelete }) {
-    console.log(user.id === Number(localStorage.getItem("id")));
     return (
         <tr key={user.id} style={{ height: "80px" }}>
             <td width={"8%"}>

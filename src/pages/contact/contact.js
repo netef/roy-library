@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../../components/navbar/navbar";
-import CustomToast from "../../components/customToast/customToast";
+import { useToastContext } from "../../contexts/ToastContext";
 
 export default function Contact() {
-    const [show, setShow] = useState(false);
+    const { setMessage, setShow } = useToastContext();
 
     const sendForm = (e) => {
         e.preventDefault();
+        setMessage("form submitted.");
         setShow(true);
     };
 
@@ -26,11 +27,6 @@ export default function Contact() {
                     <textarea rows={10} cols={50} placeholder="message..." />
                     <button type="submit">Submit form</button>
                 </form>
-                <CustomToast
-                    message={"Email sent"}
-                    show={show}
-                    setShow={setShow}
-                />
             </div>
         </div>
     );

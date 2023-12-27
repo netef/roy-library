@@ -10,6 +10,7 @@ import EditBookModal from "../bookModal/editBookModal";
 import BookGridTools from "./bookGridTools";
 import { Trash } from "react-bootstrap-icons";
 import RemoveBookModal from "../bookModal/removeBookModal";
+import { useToastContext } from "../../contexts/ToastContext";
 export default function BooksGrid() {
     const [open, setOpen] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
@@ -17,6 +18,8 @@ export default function BooksGrid() {
     const [search, setSearch] = useState("");
     const { books, setBooks } = useBookContext();
     const { user } = useUserContext();
+    const { setShow, setMessage } = useToastContext();
+
     useEffect(() => {
         const getBooks = async () => {
             try {
@@ -25,11 +28,13 @@ export default function BooksGrid() {
                 });
                 setBooks(data.data);
             } catch (error) {
+                setMessage("error fetching the books.");
+                setShow(true);
                 console.error(error);
             }
         };
         getBooks();
-    }, [setBooks]);
+    }, [setBooks, setMessage, setShow]);
 
     function bookClickHandler(book, del = false) {
         if (del) setOpenDelete(true);

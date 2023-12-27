@@ -39,7 +39,6 @@ export const getAllUsers = async () => {
         const data = await axios.get(`${SERVER_URL}/users/`, {
             headers: { Authorization: localStorage.getItem("token") },
         });
-        console.log(data);
         return data.data;
     } catch (error) {
         console.error(error);

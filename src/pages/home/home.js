@@ -4,20 +4,25 @@ import Navbar from "../../components/navbar/navbar";
 import { useUserContext } from "../../contexts/UserContext";
 import AddBookModal from "../../components/bookModal/addBookModal";
 import { getUser } from "../../components/utils/constants";
+import { useToastContext } from "../../contexts/ToastContext";
 export default function Home() {
     const { user, setUser } = useUserContext();
     const [open, setOpen] = useState(false);
+    const { setShow, setMessage } = useToastContext();
+
     useEffect(() => {
         const receiveUser = async () => {
             try {
                 const data = await getUser();
                 setUser(data);
             } catch (error) {
+                setMessage(error.message);
+                setShow(true);
                 console.error(error);
             }
         };
         !user && receiveUser();
-    }, [user, setUser]);
+    }, [user, setUser, setShow, setMessage]);
     return (
         <div>
             <Navbar />

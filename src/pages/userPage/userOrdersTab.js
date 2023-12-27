@@ -5,12 +5,16 @@ import {
     returnBookById,
 } from "../../components/utils/constants";
 import ReactModal from "react-modal";
+import { useToastContext } from "../../contexts/ToastContext";
+import { useBookContext } from "../../contexts/BookContext";
 
 export default function UserOrdersTab() {
     const [open, setOpen] = useState(false);
     const [bookToReturn, setBookToReturn] = useState(null);
     const [borrowedBooks, setBorrowedBooks] = useState([]);
     const [loading, setLoading] = useState(false);
+    const { setMessage, setShow } = useToastContext();
+    const { setBooks } = useBookContext();
 
     function bookClickHandler(book) {
         setOpen(true);
@@ -18,10 +22,33 @@ export default function UserOrdersTab() {
     }
 
     const returnBook = async () => {
-        setLoading(true);
-        const res = await returnBookById(bookToReturn.id);
-        console.log(res);
-        setLoading(false);
+        try {
+            setLoading(true);
+            const res = await returnBookById(bookToReturn.id);
+            if (res === undefined) throw new Error("unable to return book.");
+            setBorrowedBooks((prev) => {
+                const tmp = [...prev];
+                var index = tmp.indexOf(bookToReturn);
+                tmp.splice(index, 1);
+                return tmp;
+            });
+            setBooks((prev) =>
+                prev.map((b) => {
+                    if (b.id !== bookToReturn.id) {
+                        return b;
+                    }
+                    b.available_copies++;
+                    return b;
+                })
+            );
+            setLoading(false);
+            setMessage("book returned.");
+        } catch (error) {
+            console.error(error);
+            setMessage(error.message);
+        } finally {
+            setShow(true);
+        }
     };
 
     useEffect(() => {

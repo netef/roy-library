@@ -2,14 +2,20 @@ import React, { useState } from "react";
 import ReactModal from "react-modal";
 import { useBookContext } from "../../contexts/BookContext";
 import { editBook, uploadImage } from "../utils/constants";
+import { useToastContext } from "../../contexts/ToastContext";
 
 export default function EditBookModal({ open, setOpen, bookToAdd }) {
     const { setBooks } = useBookContext();
     const [loading, setLoading] = useState(false);
+    const { setShow, setMessage } = useToastContext();
+
     const updateBook = async (e) => {
         try {
             e.preventDefault();
             setLoading(true);
+            const uploadImageRes = await uploadImage(e.target.img_url.files[0]);
+            if (uploadImageRes?.Location === undefined)
+                throw new Error("unable to upload image.");
             const data = {
                 title:
                     e.target.title.value.trim() === ""
@@ -19,11 +25,10 @@ export default function EditBookModal({ open, setOpen, bookToAdd }) {
                     e.target.available_copies.value.trim() === ""
                         ? undefined
                         : e.target.available_copies.value,
-                img_url:
-                    e.target.img_url.files[0] &&
-                    (await uploadImage(e.target.img_url.files[0])).Location,
+                img_url: uploadImageRes && uploadImageRes.Location,
             };
-            await editBook(bookToAdd.id, data);
+            const res = await editBook(bookToAdd.id, data);
+            if (res === undefined) throw new Error("unable to edit book.");
             setBooks((prev) => {
                 return prev.map((b) => {
                     if (b.id !== bookToAdd.id) return b;
@@ -37,8 +42,11 @@ export default function EditBookModal({ open, setOpen, bookToAdd }) {
             });
         } catch (error) {
             console.error(error);
+            setMessage(error.message);
+        } finally {
+            setShow(true);
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (

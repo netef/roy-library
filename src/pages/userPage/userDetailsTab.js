@@ -8,12 +8,14 @@ import {
 import "./userDetailsTab.css";
 import ReactModal from "react-modal";
 import { useNavigate } from "react-router-dom";
+import { useToastContext } from "../../contexts/ToastContext";
 
 export default function UserDetailsTab() {
     const { user, setUser } = useUserContext();
     const [canEdit, setCanEdit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
+    const { setShow, setMessage } = useToastContext();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,21 +26,38 @@ export default function UserDetailsTab() {
     }, [setUser, user]);
 
     const modifyUser = async (e) => {
-        e.preventDefault();
-        setCanEdit(false);
-        setLoading(true);
-        const data = {
-            first_name:
-                e.target.first_name.value.trim() === ""
-                    ? undefined
-                    : e.target.first_name.value,
-            last_name:
-                e.target.last_name.value.trim() === ""
-                    ? undefined
-                    : e.target.last_name.value,
-        };
-        await updateUserById(data);
-        setLoading(false);
+        try {
+            e.preventDefault();
+            setCanEdit(false);
+            setLoading(true);
+            const data = {
+                first_name:
+                    e.target.first_name.value.trim() === ""
+                        ? undefined
+                        : e.target.first_name.value,
+                last_name:
+                    e.target.last_name.value.trim() === ""
+                        ? undefined
+                        : e.target.last_name.value,
+            };
+            const res = await updateUserById(data);
+            if (res === undefined) throw new Error("unable to edit user.");
+            setUser((prev) => {
+                for (const key of Object.keys(data)) {
+                    if (data[key] !== undefined) {
+                        prev[key] = data[key];
+                    }
+                }
+                return prev;
+            });
+            setMessage("user updated.");
+        } catch (error) {
+            setMessage(error.message);
+            console.error(error);
+        } finally {
+            setLoading(false);
+            setShow(true);
+        }
     };
 
     return !user ? (

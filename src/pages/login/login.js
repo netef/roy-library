@@ -4,10 +4,12 @@ import { getUser, home, register } from "../../components/utils/constants";
 import { useUserContext } from "../../contexts/UserContext";
 import axios from "axios";
 import { SERVER_URL } from "../../components/utils/constants";
+import { useToastContext } from "../../contexts/ToastContext";
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
     const { setUser } = useUserContext();
+    const { setMessage, setShow } = useToastContext();
     const navigate = useNavigate();
     const registerUser = async (e) => {
         e.preventDefault();
@@ -24,6 +26,8 @@ export default function Login() {
             setUser(user);
             navigate(home);
         } catch (error) {
+            setMessage(error.message);
+            setShow(true);
             console.error(error);
         }
         setLoading(false);
