@@ -18,7 +18,7 @@ export const login = "/login";
 export const about = "/about";
 export const contact = "/contact";
 
-export const SERVER_URL = "http://51.20.119.5/api";
+export const SERVER_URL = "http://13.48.5.115/api";
 
 export const getUser = async () => {
     try {
